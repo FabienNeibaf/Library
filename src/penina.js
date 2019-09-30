@@ -1,10 +1,10 @@
 function attachProps(props, node) {
   Object.keys(props).forEach(prop => {
-    if (prop.startsWith("on")) {
+    if (prop.startsWith('on')) {
       node.addEventListener(prop.slice(2), props[prop]);
-    } else if (prop == "ref") {
+    } else if (prop == 'ref') {
       props[prop].current = node;
-    } else if (prop != "children") {
+    } else if (prop != 'children') {
       node.setAttribute(prop, props[prop]);
     }
   });
@@ -12,12 +12,12 @@ function attachProps(props, node) {
 
 function coerce(element) {
   switch (typeof element) {
-    case "string":
-    case "number":
+    case 'string':
+    case 'number':
       return document.createTextNode(element);
-    case "null":
-    case "boolean":
-    case "undefined":
+    case 'null':
+    case 'boolean':
+    case 'undefined':
       return document.createDocumentFragment();
     default:
       return null;
@@ -29,7 +29,7 @@ export function createRef() {
 }
 
 export function createElement(type, config) {
-  const props = { ...config };
+  const props = config || {};
   const children = Array.isArray(arguments[2])
     ? arguments[2]
     : Array.prototype.slice.call(arguments, 2);
@@ -39,8 +39,8 @@ export function createElement(type, config) {
 
 function Fragment(props) {
   return {
-    type: "FRAGMENT",
-    props
+    type: 'FRAGMENT',
+    props,
   };
 }
 
@@ -52,11 +52,11 @@ function mount(element) {
   } else {
     node =
       coerce(element) ||
-      (type && type.name == "Fragment"
+      (type && type.name == 'Fragment'
         ? document.createDocumentFragment()
         : document.createElement(type));
     if (props) {
-      if (type.name != "Fragment") attachProps(props, node);
+      if (type.name != 'Fragment') attachProps(props, node);
       if (props.children) {
         const childNodes = props.children.map(mount);
         childNodes.forEach(child => node.appendChild(child));
@@ -75,17 +75,17 @@ export function Component(factory) {
         props: props || {},
         getHost() {
           const { node, children } = this;
-          if (node.constructor.name == "DocumentFragment") {
+          if (node.constructor.name == 'DocumentFragment') {
             return (children.item(0) && children.item(0).parentNode) || null;
           }
           return (node && node.parentNode) || null;
         },
         update(props) {
-          this.props = { ...this.props, ...props };
+          this.props = Object.assign({}, this.props, props);
           const oldNode = this.node;
           const host = this.getHost();
           if (host) {
-            if (this.node.constructor.name == "DocumentFragment") {
+            if (this.node.constructor.name == 'DocumentFragment') {
               const oldChildren = this.children;
               this.mount();
               for (let i = 0; i < oldChildren.length - 1; i++) {
@@ -97,7 +97,7 @@ export function Component(factory) {
         },
         remove() {
           const host = this.getHost();
-          if (this.node.constructor.name == "DocumentFragment") {
+          if (this.node.constructor.name == 'DocumentFragment') {
             this.children.forEach(child => host.removeChild(child));
           } else {
             host.removeChild(this.node);
@@ -106,21 +106,21 @@ export function Component(factory) {
         mount() {
           const { props } = this;
           const node = mount(factory.call(this, this.props));
-          if (node.constructor.name == "DocumentFragment") {
+          if (node.constructor.name == 'DocumentFragment') {
             this.children = node.children;
           }
           node._component = this;
           this.node = node;
           if (props.ref) props.ref.current = node;
           return node;
-        }
+        },
       };
-    }
+    },
   };
 }
 
 export function render(element, host) {
-  host.innerHTML = "";
+  host.innerHTML = '';
   const node = mount(element);
   return host.appendChild(node);
 }

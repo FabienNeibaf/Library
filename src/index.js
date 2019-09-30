@@ -1,24 +1,27 @@
-import Penina, { render, createRef, Component } from "./penina";
-import "./index.scss";
+import Penina, { render, createRef, Component } from './penina';
+import './index.scss';
+
+localStorage.getItem('openLibrary.index') ||
+  localStorage.setItem('openLibrary.index', 0);
 
 const store = {
-  categories: ["Spiritual", "Science", "Documentary", "Fiction", "Thriller"],
-  books: JSON.parse(localStorage.getItem("openLibrary.books")) || []
+  categories: ['Spiritual', 'Science', 'Documentary', 'Fiction', 'Thriller'],
+  books: JSON.parse(localStorage.getItem('openLibrary.books')) || [],
 };
 
 const Book = Component(function({ title, author, pages, read, category }) {
   const remove = () => {
     const { id } = this.props;
     store.books = store.books.filter(book => book.id != id);
-    localStorage.setItem("openLibrary.books", JSON.stringify(store.books));
+    localStorage.setItem('openLibrary.books', JSON.stringify(store.books));
     this.remove();
   };
   const toggleReadStatus = () => {
     const { id, read } = this.props;
     store.books = store.books.map(book =>
-      book.id != id ? book : { ...book, read: !book.read }
+      book.id != id ? book : Object.assign(book, { read: !book.read }),
     );
-    localStorage.setItem("openLibrary.books", JSON.stringify(store.books));
+    localStorage.setItem('openLibrary.books', JSON.stringify(store.books));
     this.update({ read: !read });
   };
   return (
@@ -38,9 +41,9 @@ const Book = Component(function({ title, author, pages, read, category }) {
       </p>
       <p>
         <span>Read:</span>
-        <span class={`read ${read ? "on" : ""}`} onclick={toggleReadStatus}>
+        <span class={`read ${read ? 'on' : ''}`} onclick={toggleReadStatus}>
           <i class="switch"></i>
-          <i class="status">{read ? "YES" : "NO"}</i>
+          <i class="status">{read ? 'YES' : 'NO'}</i>
         </span>
       </p>
       <button onclick={remove}>Remove</button>
@@ -73,26 +76,28 @@ const Form = Component(({ shelfRef }) => {
       authorRef.current.value,
       pagesRef.current.value,
       categRef.current.value,
-      Boolean(parseInt(readRef.current.value))
+      Boolean(parseInt(readRef.current.value)),
     ];
+    const id = parseInt(localStorage.getItem('openLibrary.index'));
     const book = {
-      id: store.books.length + 1,
+      id,
       title,
       author,
       category,
       pages,
-      read
+      read,
     };
     store.books.push(book);
-    localStorage.setItem("openLibrary.books", JSON.stringify(store.books));
+    localStorage.setItem('openLibrary.index', id + 1);
+    localStorage.setItem('openLibrary.books', JSON.stringify(store.books));
     e.target.reset();
     shelfRef.current.appendChild(Book.new({ ...book }).mount());
   };
 
   const toggleForm = e => {
     const form = formRef.current;
-    form.classList.toggle("hide");
-    e.target.innerHTML = e.target.innerHTML == "+" ? "-" : "+";
+    form.classList.toggle('hide');
+    e.target.innerHTML = e.target.innerHTML == '+' ? '-' : '+';
   };
 
   return (
@@ -137,7 +142,7 @@ const Library = Component(() => {
   const filter = e => {
     const { value } = e.target;
     let items;
-    if (value == "All") items = store.books;
+    if (value == 'All') items = store.books;
     else items = store.books.filter(book => book.category == value);
     shelfRef.current._component.update({ items });
   };
@@ -153,7 +158,7 @@ const Library = Component(() => {
           <div class="filter">
             Category
             <select onchange={filter}>
-              {["All"].concat(store.categories).map(categ => (
+              {['All'].concat(store.categories).map(categ => (
                 <option value={categ}>{categ}</option>
               ))}
             </select>
@@ -171,4 +176,4 @@ const Library = Component(() => {
   );
 });
 
-render(<Library />, document.getElementById("root"));
+render(<Library />, document.getElementById('root'));
