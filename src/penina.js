@@ -1,5 +1,5 @@
 function attachProps(props, node) {
-  Object.keys(props).forEach(prop => {
+  Object.keys(props).forEach((prop) => {
     if (prop.startsWith('on')) {
       node.addEventListener(prop.slice(2), props[prop]);
     } else if (prop === 'ref') {
@@ -56,7 +56,7 @@ function mount(element) {
     if (type.name !== 'Fragment') attachProps(props, node);
     if (props.children) {
       const childNodes = props.children.map(mount);
-      childNodes.forEach(child => node.appendChild(child));
+      childNodes.forEach((child) => node.appendChild(child));
     }
   }
   return node;
@@ -94,7 +94,7 @@ export function Component(factory) {
         remove() {
           const host = this.getHost();
           if (this.node.constructor.name === 'DocumentFragment') {
-            this.children.forEach(child => host.removeChild(child));
+            this.children.forEach((child) => host.removeChild(child));
           } else {
             host.removeChild(this.node);
           }

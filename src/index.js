@@ -12,13 +12,13 @@ const store = {
 const Book = Component(function({ title, author, pages, read, category }) {
   const remove = () => {
     const { id } = this.props;
-    store.books = store.books.filter(book => book.id !== id);
+    store.books = store.books.filter((book) => book.id !== id);
     localStorage.setItem('openLibrary.books', JSON.stringify(store.books));
     this.remove();
   };
   const toggleReadStatus = () => {
     const { id, read } = this.props;
-    store.books = store.books.map(book => {
+    store.books = store.books.map((book) => {
       return book.id !== id ? book : Object.assign(book, { read: !book.read });
     });
     localStorage.setItem('openLibrary.books', JSON.stringify(store.books));
@@ -54,7 +54,7 @@ const Book = Component(function({ title, author, pages, read, category }) {
 const Shelf = Component(({ items }) => {
   return (
     <ul class="shelf">
-      {items.map(item => (
+      {items.map((item) => (
         <Book {...item} />
       ))}
     </ul>
@@ -69,7 +69,7 @@ const Form = Component(({ shelfRef }) => {
   const categRef = createRef();
   const readRef = createRef();
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const [title, author, pages, category, read] = [
       titleRef.current.value,
@@ -94,7 +94,7 @@ const Form = Component(({ shelfRef }) => {
     shelfRef.current.appendChild(Book.new({ ...book }).mount());
   };
 
-  const toggleForm = e => {
+  const toggleForm = (e) => {
     const form = formRef.current;
     form.classList.toggle('hide');
     e.target.innerHTML = e.target.innerHTML === '+' ? '-' : '+';
@@ -119,7 +119,7 @@ const Form = Component(({ shelfRef }) => {
         <p>
           <label>Category: </label>
           <select ref={categRef}>
-            {store.categories.map(categ => (
+            {store.categories.map((categ) => (
               <option value={categ}>{categ}</option>
             ))}
           </select>
@@ -139,11 +139,11 @@ const Form = Component(({ shelfRef }) => {
 
 const Library = Component(() => {
   const shelfRef = createRef();
-  const filter = e => {
+  const filter = (e) => {
     const { value } = e.target;
     let items;
     if (value === 'All') items = store.books;
-    else items = store.books.filter(book => book.category === value);
+    else items = store.books.filter((book) => book.category === value);
     shelfRef.current.component.update({ items });
   };
 
@@ -158,7 +158,7 @@ const Library = Component(() => {
           <div class="filter">
             Category
             <select onchange={filter}>
-              {['All'].concat(store.categories).map(categ => (
+              {['All'].concat(store.categories).map((categ) => (
                 <option value={categ}>{categ}</option>
               ))}
             </select>
