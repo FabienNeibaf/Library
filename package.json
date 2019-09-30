@@ -1,0 +1,34 @@
+{
+  "name": "library",
+  "version": "1.0.0",
+  "description": "It's a simple library app which let you add your favorite books.   You can change the read status of a book and even remove it if you consider it no more relevant.   The project is very simplist and is part of microverse curriculum.   Also, feel free to contribute to make it better.",
+  "scripts": {
+    "build": "webpack",
+    "start": "webpack-dev-server --open",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FabienNeibaf/Library.git"
+  },
+  "keywords": [],
+  "author": "Fabien RAKOTOMAMPIANDRA",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FabienNeibaf/Library/issues"
+  },
+  "homepage": "https://github.com/FabienNeibaf/Library#readme",
+  "devDependencies": {
+    "@babel/core": "^7.6.2",
+    "@babel/plugin-transform-react-jsx": "^7.3.0",
+    "@babel/preset-env": "^7.6.2",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^3.2.0",
+    "node-sass": "^4.12.0",
+    "sass-loader": "^8.0.0",
+    "style-loader": "^1.0.0",
+    "webpack": "^4.41.0",
+    "webpack-cli": "^3.3.9",
+    "webpack-dev-server": "^3.8.1"
+  }
+}
