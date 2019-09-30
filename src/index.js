@@ -12,15 +12,15 @@ const store = {
 const Book = Component(function({ title, author, pages, read, category }) {
   const remove = () => {
     const { id } = this.props;
-    store.books = store.books.filter(book => book.id != id);
+    store.books = store.books.filter(book => book.id !== id);
     localStorage.setItem('openLibrary.books', JSON.stringify(store.books));
     this.remove();
   };
   const toggleReadStatus = () => {
     const { id, read } = this.props;
-    store.books = store.books.map(book =>
-      book.id != id ? book : Object.assign(book, { read: !book.read }),
-    );
+    store.books = store.books.map(book => {
+      return book.id !== id ? book : Object.assign(book, { read: !book.read });
+    });
     localStorage.setItem('openLibrary.books', JSON.stringify(store.books));
     this.update({ read: !read });
   };
@@ -97,7 +97,7 @@ const Form = Component(({ shelfRef }) => {
   const toggleForm = e => {
     const form = formRef.current;
     form.classList.toggle('hide');
-    e.target.innerHTML = e.target.innerHTML == '+' ? '-' : '+';
+    e.target.innerHTML = e.target.innerHTML === '+' ? '-' : '+';
   };
 
   return (
@@ -142,9 +142,9 @@ const Library = Component(() => {
   const filter = e => {
     const { value } = e.target;
     let items;
-    if (value == 'All') items = store.books;
-    else items = store.books.filter(book => book.category == value);
-    shelfRef.current._component.update({ items });
+    if (value === 'All') items = store.books;
+    else items = store.books.filter(book => book.category === value);
+    shelfRef.current.component.update({ items });
   };
 
   return (
