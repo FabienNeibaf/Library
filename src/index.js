@@ -3,13 +3,14 @@ import "./index.scss";
 
 const store = {
   categories: ["Spiritual", "Science", "Documentary", "Fiction", "Thriller"],
-  books: []
+  books: JSON.parse(localStorage.getItem("openLibrary.books")) || []
 };
 
 const Book = Component(function({ title, author, pages, read, category }) {
   const remove = () => {
     const { id } = this.props;
     store.books = store.books.filter(book => book.id != id);
+    localStorage.setItem("openLibrary.books", JSON.stringify(store.books));
     this.remove();
   };
   const toggleReadStatus = () => {
@@ -17,6 +18,7 @@ const Book = Component(function({ title, author, pages, read, category }) {
     store.books = store.books.map(book =>
       book.id != id ? book : { ...book, read: !book.read }
     );
+    localStorage.setItem("openLibrary.books", JSON.stringify(store.books));
     this.update({ read: !read });
   };
   return (
@@ -82,8 +84,8 @@ const Form = Component(({ shelfRef }) => {
       read
     };
     store.books.push(book);
+    localStorage.setItem("openLibrary.books", JSON.stringify(store.books));
     e.target.reset();
-    console.log(book.read);
     shelfRef.current.appendChild(Book.new({ ...book }).mount());
   };
 
