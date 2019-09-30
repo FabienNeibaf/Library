@@ -28,11 +28,9 @@ export function createRef() {
   return Object.seal({ current: null });
 }
 
-export function createElement(type, config) {
+export function createElement(type, config, ...children) {
   const props = config || {};
-  const children = Array.isArray(arguments[2])
-    ? arguments[2]
-    : Array.prototype.slice.call(arguments, 2);
+  children = Array.isArray(children[0]) ? children[0] : children;
   if (children.length > 0) props.children = children;
   return { type, props };
 }
@@ -47,20 +45,18 @@ function Fragment(props) {
 function mount(element) {
   let node;
   const { type, props } = element || {};
-  if (type && type.isComponent) {
-    node = type.new(props).mount();
+  if (type && type.isComponent) return type.new(props).mount();
+  if ((node = coerce(element))) return node;
+  if (type && type.name === 'Fragment') {
+    node = document.createDocumentFragment();
   } else {
-    if (coerce(element) || (type && type.name === 'Fragment')) {
-      node = document.createDocumentFragment();
-    } else {
-      node = document.createElement(type);
-    }
-    if (props) {
-      if (type.name !== 'Fragment') attachProps(props, node);
-      if (props.children) {
-        const childNodes = props.children.map(mount);
-        childNodes.forEach(child => node.appendChild(child));
-      }
+    node = document.createElement(type);
+  }
+  if (props) {
+    if (type.name !== 'Fragment') attachProps(props, node);
+    if (props.children) {
+      const childNodes = props.children.map(mount);
+      childNodes.forEach(child => node.appendChild(child));
     }
   }
   return node;
