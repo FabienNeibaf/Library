@@ -86,10 +86,11 @@ section {
         align-items: center;
         border-bottom: 1px solid #444;
 
-        *:last-child {
+        >:last-child {
           flex: auto;
           padding: 5px;
           border: none;
+          min-width: 0;
           background: inherit;
         }
       }
@@ -196,7 +197,7 @@ section {
 
           &.on {
             .switch {
-              background: #f0f000;
+              background: #e3e309;
             }
           }
 
