@@ -43,10 +43,10 @@ function Fragment(props) {
 }
 
 function mount(element) {
-  let node;
+  let node = coerce(element);
+  if (node) return node;
   const { type, props } = element || {};
   if (type && type.isComponent) return type.new(props).mount();
-  if ((node = coerce(element))) return node;
   if (type && type.name === 'Fragment') {
     node = document.createDocumentFragment();
   } else {
@@ -84,7 +84,7 @@ export function Component(factory) {
             if (this.node.constructor.name === 'DocumentFragment') {
               const oldChildren = this.children;
               this.mount();
-              for (let i = 0; i < oldChildren.length - 1; i++) {
+              for (let i = 0; i < oldChildren.length - 1; i += 1) {
                 host.replaceCHild(this.children[i], oldChildren[i]);
               }
             }
@@ -120,5 +120,11 @@ export function render(element, host) {
   const node = mount(element);
   return host.appendChild(node);
 }
-const Penina = { Component, createElement, Fragment, render };
+const Penina = {
+  Component,
+  createElement,
+  Fragment,
+  render,
+};
+
 export default Penina;
