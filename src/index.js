@@ -6,7 +6,7 @@ const store = {
   books: []
 };
 
-const Book = Component(function({ id, title, author, pages, read, category }) {
+const Book = Component(function({ title, author, pages, read, category }) {
   const remove = () => {
     const { id } = this.props;
     store.books = store.books.filter(book => book.id != id);
@@ -62,18 +62,28 @@ const Form = Component(({ shelfRef }) => {
   const authorRef = createRef();
   const pagesRef = createRef();
   const categRef = createRef();
+  const readRef = createRef();
 
   const handleSubmit = e => {
     e.preventDefault();
-    const [title, author, pages, category] = [
+    const [title, author, pages, category, read] = [
       titleRef.current.value,
       authorRef.current.value,
       pagesRef.current.value,
-      categRef.current.value
+      categRef.current.value,
+      Boolean(parseInt(readRef.current.value))
     ];
-    const book = { id: store.books.length + 1, title, author, category, pages };
+    const book = {
+      id: store.books.length + 1,
+      title,
+      author,
+      category,
+      pages,
+      read
+    };
     store.books.push(book);
     e.target.reset();
+    console.log(book.read);
     shelfRef.current.appendChild(Book.new({ ...book }).mount());
   };
 
@@ -105,6 +115,13 @@ const Form = Component(({ shelfRef }) => {
             {store.categories.map(categ => (
               <option value={categ}>{categ}</option>
             ))}
+          </select>
+        </p>
+        <p>
+          <label>Read: </label>
+          <select ref={readRef}>
+            <option value="0">NO</option>
+            <option value="1">YES</option>
           </select>
         </p>
         <input type="submit" value="Add book" />
