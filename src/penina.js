@@ -1,11 +1,12 @@
 function attachProps(props, node) {
-  for (let prop in props) {
-    if (prop.startsWith('on')) {
-      node.addEventListener(prop.slice(2), props[prop]);
-    } else if (prop === 'ref') {
-      props[prop].current = node;
-    } else if (prop !== 'children') {
-      node.setAttribute(prop, props[prop]);
+  const keys = Object.keys(props);
+  for (const key of keys) {
+    if (key.startsWith('on')) {
+      node.addEventListener(key.slice(2), props[prop]);
+    } else if (key === 'ref') {
+      props[key].current = node;
+    } else if (key !== 'children') {
+      node.setAttribute(key, props[key]);
     }
   }
 }
