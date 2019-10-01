@@ -1,0 +1,232 @@
+@import url('https://fonts.googleapis.com/css?family=Calligraffitti|PT+Mono&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-size: 14px;
+  background: #f9fff1;
+  font-family: 'PT Mono';
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  color: #fff;
+  font-family: Calligraffitti;
+  ;
+
+  h1 {
+    margin: 0;
+    padding: 10px;
+    font-size: 1.5em;
+    text-align: center;
+    background: #1d2f1f;
+  }
+}
+
+section {
+  flex: auto;
+  display: flex;
+  overflow: auto;
+
+  .form-wrapper {
+    position: relative;
+    background: #fff;
+    border-right: 1px solid #1d2f1f;
+
+    button {
+      top: 20px;
+      left: 100%;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      font-size: 2em;
+      line-height: 1;
+      position: absolute;
+      background: #fff;
+      align-items: center;
+      padding-bottom: 3px;
+      justify-content: center;
+      border-radius: 0 5px 5px 0;
+      border: 1px solid #1d2f1f;
+
+      &:hover {
+        color: #fff;
+        background: #1d2f1f;
+      }
+    }
+
+    form {
+      width: 250px;
+      overflow: hidden;
+      padding: 30px 15px;
+      transition: all 0.2s ease-in;
+
+      &.hide {
+        width: 0;
+        padding: 30px 0;
+        visibility: hidden;
+      }
+
+      p {
+        display: flex;
+        margin: 0 0 15px;
+        align-items: center;
+        border-bottom: 1px solid #444;
+
+        >:last-child {
+          flex: auto;
+          padding: 5px;
+          border: none;
+          min-width: 0;
+          background: inherit;
+        }
+      }
+
+      input[type=submit] {
+        color: #fff;
+        display: block;
+        cursor: pointer;
+        padding: 3px 7px;
+        background: #1d2f1f;
+        margin: 15px auto 10px;
+        border: 1px solid transparent;
+
+        &:hover {
+          background: #1c5008;
+        }
+      }
+    }
+  }
+
+  main {
+    flex: auto;
+    overflow: auto;
+
+    .filter {
+      text-align: center;
+      background: #e3e309;
+      padding: 5px 10px;
+
+      select {
+        width: 200px;
+        border: none;
+        padding: 3px;
+        margin-left: 5px;
+      }
+    }
+
+    .shelf {
+      flex: auto;
+      padding: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      list-style: none;
+      align-items: flex-start;
+      justify-content: center;
+
+      .book {
+        margin: 10px;
+        min-width: 220px;
+        background: #fff;
+        border: 1px solid #1d2f1f;
+        border-top-width: 3px;
+        border-bottom-width: 3px;
+
+        h3 {
+          padding: 10px;
+          margin: 0 0 10px;
+          text-align: center;
+          border-bottom: 1px dashed #1d2f1f;
+        }
+
+        p {
+          display: flex;
+          margin: 0 0 10px;
+          padding: 5px 10px;
+          align-items: center;
+
+          span:first-child {
+            width: 45%;
+          }
+
+          span:last-child:not(.read) {
+            flex: auto;
+          }
+
+          &:last-of-type {
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #1d2f1f;
+          }
+        }
+
+        button {
+          color: #fff;
+          display: block;
+          cursor: pointer;
+          padding: 3px 7px;
+          margin: 15px auto 10px;
+          background: #ff1e1e;
+          border: 1px solid transparent;
+
+          &:hover {
+            border: 1px solid #1d2f1f;
+          }
+        }
+
+        .read {
+          display: flex;
+          cursor: pointer;
+          padding: 2px 3px;
+          align-items: center;
+          border-radius: 25px;
+          background: #f9fff1;
+          border: 1px solid #1d2f1f;
+
+          &.on {
+            .switch {
+              background: #e3e309;
+            }
+          }
+
+          .status {
+            padding: 0 3px;
+            font-style: normal;
+          }
+
+          .switch {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #1d2f1f;
+          }
+        }
+      }
+    }
+  }
+}
+
+footer {
+  color: #fff;
+  padding: 3px 0;
+  font-size: 0.8em;
+  text-align: center;
+  background: #1d2f1f;
+
+  a {
+    padding: 0 5px;
+    color: inherit;
+  }
+}
