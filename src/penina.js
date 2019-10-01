@@ -1,4 +1,4 @@
-function attachProps(props, node) {
+const attachProps = (props, node) => {
   Object.keys(props).forEach(prop => {
     if (prop.startsWith('on')) {
       node.addEventListener(prop.slice(2), props[prop]);
@@ -8,9 +8,9 @@ function attachProps(props, node) {
       node.setAttribute(prop, props[prop]);
     }
   });
-}
+};
 
-function coerce(element) {
+const coerce = element => {
   switch (typeof element) {
     case 'string':
     case 'number':
@@ -22,27 +22,27 @@ function coerce(element) {
     default:
       return null;
   }
-}
+};
 
-export function createRef() {
+export const createRef = () => {
   return Object.seal({ current: null });
-}
+};
 
-export function createElement(type, config, ...children) {
+export const createElement = (type, config, ...children) => {
   const props = config || {};
   children = Array.isArray(children[0]) ? children[0] : children;
   if (children.length > 0) props.children = children;
   return { type, props };
-}
+};
 
-function Fragment(props) {
+const Fragment = props => {
   return {
     type: 'FRAGMENT',
     props,
   };
-}
+};
 
-function mount(element) {
+const mount = element => {
   let node = coerce(element);
   if (node) return node;
   const { type, props } = element || {};
@@ -60,9 +60,9 @@ function mount(element) {
     }
   }
   return node;
-}
+};
 
-export function Component(factory) {
+export const Component = factory => {
   return {
     isComponent: true,
     new(props) {
@@ -101,7 +101,7 @@ export function Component(factory) {
         },
         mount() {
           const { props } = this;
-          const node = mount(factory.call(this, this.props));
+          const node = mount(factory.call(null, this.props, this));
           if (node.constructor.name === 'DocumentFragment') {
             this.children = node.children;
           }
@@ -113,13 +113,13 @@ export function Component(factory) {
       };
     },
   };
-}
+};
 
-export function render(element, host) {
+export const render = (element, host) => {
   host.innerHTML = '';
   const node = mount(element);
   return host.appendChild(node);
-}
+};
 const Penina = {
   Component,
   createElement,

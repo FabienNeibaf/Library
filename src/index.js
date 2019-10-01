@@ -9,20 +9,20 @@ const store = {
   books: JSON.parse(localStorage.getItem('openLibrary.books')) || [],
 };
 
-const Book = Component(function({ title, author, pages, read, category }) {
+const Book = Component(({ title, author, pages, read, category }, comp) => {
   const remove = () => {
-    const { id } = this.props;
+    const { id } = comp.props;
     store.books = store.books.filter(book => book.id !== id);
     localStorage.setItem('openLibrary.books', JSON.stringify(store.books));
-    this.remove();
+    comp.remove();
   };
   const toggleReadStatus = () => {
-    const { id, read } = this.props;
+    const { id, read } = comp.props;
     store.books = store.books.map(book => {
       return book.id !== id ? book : Object.assign(book, { read: !book.read });
     });
     localStorage.setItem('openLibrary.books', JSON.stringify(store.books));
-    this.update({ read: !read });
+    comp.update({ read: !read });
   };
   return (
     <li class="book">
