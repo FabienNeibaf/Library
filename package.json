@@ -4,6 +4,7 @@
   "description": "It's a simple library app which let you add your favorite books.   You can change the read status of a book and even remove it if you consider it no more relevant.   The project is very simplist and is part of microverse curriculum.   Also, feel free to contribute to make it better.",
   "scripts": {
     "build": "webpack",
+    "deploy": "gh-pages -d dist",
     "start": "webpack-dev-server --open",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -24,6 +25,7 @@
     "@babel/preset-env": "^7.6.2",
     "babel-loader": "^8.0.6",
     "css-loader": "^3.2.0",
+    "gh-pages": "^2.1.1",
     "node-sass": "^4.12.0",
     "sass-loader": "^8.0.0",
     "style-loader": "^1.0.0",
